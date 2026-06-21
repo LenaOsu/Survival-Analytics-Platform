@@ -10,6 +10,9 @@ from src.Weibull import (democracy_Wb, Wb_lung)
 from src.features import (error_model, horizon_probability, death_risk, summary)
 from src.visualization import (plot_MK_Wb_democracy, plot_men_women_survival_prob, hazard_plots)
 
+from fastapi import FastAPI
+from schemas.request import SurvivalRequest
+from services.survival import compute_survival_KM, compute_survival_Weibull
 
 
 def main():
@@ -85,7 +88,53 @@ def main():
 
     summary(med_women, med_women_wb, med_men, med_men_wb, wbf_lung_w, wbf_lung_m, kmf_lung_w, kmf_lung_m)
 
-    print("DONE.")
+    print("MODEL STAT DONE.")
+    print("Let's build the API.")
+
+app = FastAPI(
+    title="Survival Analytics API",
+    docs_url="/docs",   # désactiver en prod plus tard
+)
+
+kmf_lung_m, kmf_lung_w, df_lung, T, E, sexe, med_men, med_men_conf, med_women, med_women_conf, results_lung = KM_lung()
+wbf_lung_m, wbf_lung_w, df_lung, T, E, sexe, med_men_wb, med_men_conf_wb, med_women_wb, med_women_conf_wb, results_lung_wb = Wb_lung()
+def load_models(kmf_lung_m, kmf_lung_w, wbf_lung_m, wbf_lung_w):
+
+    return {
+        "male": {
+            "km": kmf_lung_m,
+            "weibull": wbf_lung_m
+        },
+        "female": {
+            "km": kmf_lung_w,
+            "weibull": wbf_lung_w
+        }
+    }
+model = load_models(kmf_lung_m, kmf_lung_w, wbf_lung_m, wbf_lung_w)
+
+
+@app.get("/health")
+def health():
+    return {"status": "ok"}
+
+@app.post("/survival_KM")
+def survival_km(req: SurvivalRequest):
+    prob = compute_survival_KM(model, req.sex, req.time)
+    return {
+        "sex": req.sex,
+        "time": req.time,
+        "survival_probability": prob
+    }
+    
+@app.post("/survival_Weibull")
+def survival_wb(req: SurvivalRequest):
+    prob = compute_survival_Weibull(model, req.sex, req.time)
+    return {
+        "sex": req.sex,
+        "time": req.time,
+        "survival_probability": prob
+    }
+
 
 if __name__ == "__main__":
     main()
