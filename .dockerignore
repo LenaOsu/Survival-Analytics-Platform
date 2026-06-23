@@ -1,9 +1,7 @@
-.env
 .git
 *.pem
 credentials.json
 
-.git
 .gitignore
 
 __pycache__/
