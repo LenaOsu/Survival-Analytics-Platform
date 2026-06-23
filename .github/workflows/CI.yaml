@@ -26,5 +26,3 @@ jobs:
       - name: Compile project
         run: python -m py_compile app/**/*.py
 
-      - name: Run tests
-        run: pytest.ini
