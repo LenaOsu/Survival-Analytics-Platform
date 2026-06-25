@@ -59,7 +59,7 @@ It combines statistical modeling, backend engineering, and cloud deployment.
 
 ---
 
-## 🧠 Design Decisions
+## Design Decisions
 
 **Why FastAPI**
 FastAPI was chosen for its high performance, native support for asynchronous operations, and automatic generation of OpenAPI/Swagger documentation, which simplifies API testing and integration.
