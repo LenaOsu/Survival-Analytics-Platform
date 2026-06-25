@@ -35,8 +35,8 @@ def Wb_lung():
 
     data_lung = load_lung()
     df_lung = pd.DataFrame(data_lung)
-    print(df_lung.columns)
-    print(df_lung.head())
+    #print(df_lung.columns)
+    #print(df_lung.head())
  
     T = data_lung["time"] #observation time
     E = (data_lung["status"] == 1).astype(int) #death or censured (not dead yet or exit)

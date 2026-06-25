@@ -13,8 +13,8 @@ def democracy_KM():
     E = data["observed"] # end of the power in place ~ death/exit
 
     df = pd.DataFrame(data)
-    print(df.head())
-    print(df.columns)
+    #print(df.head())
+    #print(df.columns)
 
     kmf_democracy = KaplanMeierFitter()
     kmf_ndemocracy = KaplanMeierFitter()
@@ -38,20 +38,20 @@ def KM_lung():
 
     data_lung = load_lung()
     df_lung = pd.DataFrame(data_lung)
-    print(df_lung.columns)
-    print(df_lung.head())
+    #print(df_lung.columns)
+    #print(df_lung.head())
 
     #status = 0 or 1; sex = 1 or 2- cannot know for sure who is who
     #have a look on df_lung.groupby("status")["time"].mean() and df.groupby("status")["time"]
     #ALWAYS check the documentation to be sure of the object
 
     T = data_lung["time"] #observation time
-    print("A")
+    #print("A")
     E = (data_lung["status"] == 1).astype(int) #death or censured (not dead yet or exit)
-    print("B")
+    #print("B")
     kmf_lung_m = KaplanMeierFitter()
     kmf_lung_w = KaplanMeierFitter()
-    print("C")
+    #print("C")
 
     sexe = (data_lung["sex"] == 1) #corresponds to men or women according the documentation
 

@@ -102,7 +102,9 @@ app.include_router(router)
 #kmf_lung_m, kmf_lung_w, df_lung, T, E, sexe, med_men, med_men_conf, med_women, med_women_conf, results_lung = KM_lung()
 #wbf_lung_m, wbf_lung_w, df_lung, T, E, sexe, med_men_wb, med_men_conf_wb, med_women_wb, med_women_conf_wb, results_lung_wb = Wb_lung()
 
-
+@app.get("/")
+def root():
+    return {"message": "Survival Analytics API is running"}
 
 if __name__ == "__main__":
     main()
