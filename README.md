@@ -8,8 +8,14 @@ The system is deployed in production and exposes a fully documented REST API.
 
 ## Live System
 
-- 🔗 API: https://survival-analytics-platform.onrender.com  
-- 📘 Swagger UI: https://survival-analytics-platform.onrender.com/docs  
+## Live System
+
+The API is deployed and fully accessible in production.
+
+- API: https://survival-analytics-platform.onrender.com  
+- Interactive Swagger Documentation: https://survival-analytics-platform.onrender.com/docs  
+
+The `/docs` endpoint provides full interactive testing of all available routes. 
 
 ---
 
