@@ -59,10 +59,30 @@ It combines statistical modeling, backend engineering, and cloud deployment.
 
 ---
 
+## 🧠 Design Decisions
+
+**Why FastAPI**
+FastAPI was chosen for its high performance, native support for asynchronous operations, and automatic generation of OpenAPI/Swagger documentation, which simplifies API testing and integration.
+
+**Why Kaplan-Meier**
+The Kaplan-Meier estimator is a non-parametric method that provides a robust baseline for survival probability estimation without assuming any specific distribution.
+
+**Why Weibull Model**
+The Weibull model introduces a parametric approach capable of capturing varying hazard rates over time, making it suitable for modeling more structured time-to-event behaviors.
+
+**Why a separation between services / models / API layers**
+The architecture follows a modular design to improve maintainability, scalability, and testability:
+- `models/` handles statistical and ML logic
+- `services/` encapsulates business logic and computations
+- `api/` exposes clean REST endpoints via FastAPI
+
+This separation ensures clear responsibilities and simplifies future extensions or model replacement.
+
+---
+
 ## Example Request
 
-### Python (recommended)
-
+### Python 
 ```python id="r2"
 import requests
 
