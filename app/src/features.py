@@ -48,7 +48,6 @@ def summary(med_women, med_women_wb, med_men, med_men_wb, wbf_lung_w, wbf_lung_m
     print("KM median:", med_women)
     print("Weibull median:", med_women_wb)
     print("Weibull rho:", wbf_lung_w.rho_)
-    print("Weibull lambda:", wbf_lung_w.lambda_)
 
     print(f"--- MEN ---")
     print("KM median:", med_men)
