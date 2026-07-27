@@ -8,6 +8,7 @@ import pandas as pd
 from lifelines import *
 from sklearn.metrics import mean_squared_error, r2_score
 from sklearn.model_selection import train_test_split
+from lifelines.utils import concordance_index
 
 def democracy_Wb():
 
@@ -53,7 +54,8 @@ def Wb_lung():
     sexe = (data_lung["sex"] == 1)
 
     X_train_m, X_test_m, Y_train_m, Y_test_m = train_test_split(
-        T[sexe], E[sexe],
+        T[sexe], 
+        E[sexe],
         test_size=0.2,
         random_state=42
     )
@@ -67,33 +69,15 @@ def Wb_lung():
 
     print(len(X_train_m), len(Y_train_m), len(Y_pred_train_m))
 
-    r2_train = r2_score(Y_train_m, Y_pred_train_m)
-    r2_test = r2_score(Y_test_m, Y_pred_test_m)
-    mse_train = mean_squared_error(Y_train_m, Y_pred_train_m)
-    mse_test = mean_squared_error(Y_test_m, Y_pred_test_m)
-    gap = r2_train - r2_test
-
-    scores[sexe.name] = {
-        "r2_train": r2_train, "r2_test": r2_test,
-        "mse_train": mse_train, "mse_test": mse_test,
-        "gap": gap
-    }
-
-    if r2_train < 0.5 and r2_test < 0.5:
-        diagnostic = "SOUS-APPRENTISSAGE (train et test faibles)"
-    elif gap > 0.15:
-        diagnostic = "SUR-APPRENTISSAGE (gros ecart train/test)"
-    else:
-        diagnostic = "OK (train et test proches et corrects)"
-
-    print(f"[{sexe.name}] R2 train={r2_train:.3f} | R2 test={r2_test:.3f} "
-        f"| gap={gap:.3f} | MSE train={mse_train:.4g} | MSE test={mse_test:.4g} "
-        f"-> {diagnostic}")
+    c_index_train = concordance_index(X_train_m, -wbf_lung_m.predict(X_train_m), Y_train_m)
+    c_index_test = concordance_index(X_test_m, -wbf_lung_m.predict(X_test_m), Y_test_m)
+    # le signe - car predict donne une proba de survie et plus elle est haute,
+    # plus le risque de décès est faible, donc on inverse le signe pour que le c-index soit cohérent avec la survie
+    print(f"[{sexe.name}] C-index train={c_index_train:.3f} | C-index test={c_index_test:.3f}")
 
     wbf_lung_w.fit(T[~sexe], event_observed = E[~sexe], label = "Women lung disease")
     med_women_wb = wbf_lung_w.median_survival_time_
     med_women_conf_wb = median_survival_times(wbf_lung_w.confidence_interval_)
-
 
 
     results_lung_wb = logrank_test(T[sexe], T[~sexe], E[sexe], E[~sexe], alpha=.99)
