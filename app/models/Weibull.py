@@ -4,8 +4,9 @@ from lifelines.datasets import load_dd, load_waltons, load_lung
 from lifelines import KaplanMeierFitter, WeibullFitter
 from lifelines.utils import median_survival_times
 from lifelines.statistics import logrank_test
-import pandas as pd
+import pandas as pd                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
 from lifelines import *
+from lifelines import CoxPHFitter
 from sklearn.metrics import mean_squared_error, r2_score
 from sklearn.model_selection import train_test_split
 from lifelines.utils import concordance_index
@@ -43,6 +44,19 @@ def Wb_lung():
     #print(df_lung.columns)
     #print(df_lung.head())
 
+    print(df_lung["status"].value_counts())
+
+    # Cox veut un DataFrame avec : les covariables + une colonne temps + une colonne evenement
+    df_cox = df_lung[["time", "status", "age", "sex", "ph.ecog", "wt.loss"]].dropna()
+    df_cox["event"] = (df_cox["status"] == 1).astype(int)  # verifie le codage exact de status dans load_lung
+    df_cox = df_cox.drop(columns="status")
+
+    print(df_cox["status"].value_counts() if "status" in df_cox.columns else "colonne status deja supprimee")
+
+
+    df_train, df_test = train_test_split(df_cox, test_size=0.2, random_state=42)
+    print(df_train.nunique())
+    print(df_train.describe())
     scores = {}
  
     T = data_lung["time"] #observation time
@@ -50,30 +64,39 @@ def Wb_lung():
     wbf_lung_m = WeibullFitter()
     wbf_lung_w = WeibullFitter()
 
-
     sexe = (data_lung["sex"] == 1)
 
-    X_train_m, X_test_m, Y_train_m, Y_test_m = train_test_split(
-        T[sexe], 
-        E[sexe],
-        test_size=0.2,
-        random_state=42
+    cph = CoxPHFitter()
+    cph.fit(df_train, duration_col="time", event_col="event")
+    cph.print_summary()  # coefficients, hazard ratios, p-values par covariable
+    risk_train = cph.predict_partial_hazard(df_train)
+    risk_test = cph.predict_partial_hazard(df_test)
+
+    c_index_train = concordance_index(
+    df_train["time"], -risk_train, df_train["event"]
+    )
+    c_index_test = concordance_index(
+        df_test["time"], -risk_test, df_test["event"]
     )
 
-    wbf_lung_m.fit(X_train_m, event_observed = Y_train_m, label = "Men lung disease")
+    gap = c_index_train - c_index_test
+
+    print(f"C-index train={c_index_train:.3f} | C-index test={c_index_test:.3f} | gap={gap:.3f}")
+
+    if c_index_train < 0.6 and c_index_test < 0.6:
+        diagnostic = "SOUS-APPRENTISSAGE (le modele ordonne mal les patients, meme sur train)"
+    elif gap > 0.1:
+        diagnostic = "SUR-APPRENTISSAGE (gros ecart train/test)"
+    else:
+        diagnostic = "OK"
+
+    print(f"-> {diagnostic}")
+
+    wbf_lung_m.fit(T[sexe], event_observed = E[sexe], label = "Men lung disease")
     med_men_wb = wbf_lung_m.median_survival_time_
     med_men_conf_wb = median_survival_times(wbf_lung_m.confidence_interval_)
 
-    Y_pred_train_m = wbf_lung_m.predict(X_train_m)
-    Y_pred_test_m = wbf_lung_m.predict(X_test_m)
 
-    print(len(X_train_m), len(Y_train_m), len(Y_pred_train_m))
-
-    c_index_train = concordance_index(X_train_m, -wbf_lung_m.predict(X_train_m), Y_train_m)
-    c_index_test = concordance_index(X_test_m, -wbf_lung_m.predict(X_test_m), Y_test_m)
-    # le signe - car predict donne une proba de survie et plus elle est haute,
-    # plus le risque de décès est faible, donc on inverse le signe pour que le c-index soit cohérent avec la survie
-    print(f"[{sexe.name}] C-index train={c_index_train:.3f} | C-index test={c_index_test:.3f}")
 
     wbf_lung_w.fit(T[~sexe], event_observed = E[~sexe], label = "Women lung disease")
     med_women_wb = wbf_lung_w.median_survival_time_
