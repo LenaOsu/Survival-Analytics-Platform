@@ -2,7 +2,7 @@ from os import name
 
 from lifelines.datasets import load_dd, load_waltons, load_lung
 from lifelines import KaplanMeierFitter, WeibullFitter
-from lifelines.utils import median_survival_times
+from lifelines.utils import k_fold_cross_validation, median_survival_times
 from lifelines.statistics import logrank_test
 import pandas as pd                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
 from lifelines import *
@@ -10,6 +10,7 @@ from lifelines import CoxPHFitter
 from sklearn.metrics import mean_squared_error, r2_score
 from sklearn.model_selection import train_test_split
 from lifelines.utils import concordance_index
+from matplotlib import pyplot as plt
 
 def democracy_Wb():
 
@@ -57,12 +58,32 @@ def Wb_lung():
     df_train, df_test = train_test_split(df_cox, test_size=0.2, random_state=42)
     print(df_train.nunique())
     print(df_train.describe())
-    scores = {}
  
     T = data_lung["time"] #observation time
     E = (data_lung["status"] == 1).astype(int) #death or censured (not dead yet or exit)
     wbf_lung_m = WeibullFitter()
     wbf_lung_w = WeibullFitter()
+
+    fig, axes = plt.subplots(1, 2, figsize=(12, 5))
+
+    for ax, df_subset, label in zip(axes, [df_train, df_test], ["Train", "Test"]):
+        # KM empirique = verite terrain, sans hypothese de modele
+        wbf_lung_m.fit(df_subset["time"], event_observed=df_subset["event"], label="Weibull Men")
+        wbf_lung_m.plot_survival_function(ax=ax, ci_show=True)
+
+        # courbe moyenne predite par Cox sur ce sous-ensemble
+        surv_funcs = cph.predict_survival_function(df_subset)
+        surv_funcs.mean(axis=1).plot(ax=ax, label="Cox (moyenne predite)", linestyle="--")
+
+        ax.set_title(f"{label} : Cox vs Weibull")
+        ax.set_xlabel("Temps")
+        ax.set_ylabel("Probabilite de survie")
+        ax.legend()
+        ax.grid(alpha=0.3)
+
+    plt.tight_layout()
+    plt.savefig("outputs/plots/cox_vs_wb.png", dpi=130)
+    plt.show()
 
     sexe = (data_lung["sex"] == 1)
 
@@ -91,6 +112,8 @@ def Wb_lung():
         diagnostic = "OK"
 
     print(f"-> {diagnostic}")
+    k_fold_cross_validation(cph, df_cox, duration_col="time", event_col="event", k=5, scoring_method="concordance_index")
+
 
     wbf_lung_m.fit(T[sexe], event_observed = E[sexe], label = "Men lung disease")
     med_men_wb = wbf_lung_m.median_survival_time_
