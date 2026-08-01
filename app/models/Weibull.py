@@ -1,6 +1,6 @@
 from os import name
 
-from lifelines.datasets import load_dd, load_waltons, load_lung
+from app.database.repository import get_lung_dataframe
 from lifelines import KaplanMeierFitter, WeibullFitter
 from lifelines.utils import k_fold_cross_validation, median_survival_times
 from lifelines.statistics import logrank_test
@@ -15,7 +15,7 @@ from matplotlib import pyplot as plt
 
 def Wb_lung():
 
-    data_lung = load_lung()
+    data_lung = get_lung_dataframe()
     df_lung = pd.DataFrame(data_lung)
 
     print(df_lung["status"].value_counts())

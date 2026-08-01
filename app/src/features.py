@@ -1,4 +1,4 @@
-from lifelines.datasets import load_dd, load_waltons, load_lung
+from app.database.repository import get_lung_dataframe
 from lifelines import KaplanMeierFitter, WeibullFitter
 from lifelines.utils import median_survival_times
 from lifelines.statistics import logrank_test

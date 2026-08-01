@@ -1,4 +1,4 @@
-from lifelines.datasets import load_dd, load_waltons, load_lung
+from app.database.repository import get_lung_dataframe
 from lifelines import KaplanMeierFitter, WeibullFitter
 from lifelines.utils import median_survival_times
 from lifelines.statistics import logrank_test
@@ -6,37 +6,10 @@ import pandas as pd
 from lifelines import *
 
 
-def democracy_KM():
-
-    data = load_dd()
-    T = data["duration"] # power in place
-    E = data["observed"] # end of the power in place ~ death/exit
-
-    df = pd.DataFrame(data)
-    #print(df.head())
-    #print(df.columns)
-
-    kmf_democracy = KaplanMeierFitter()
-    kmf_ndemocracy = KaplanMeierFitter()
-    dem = (data["democracy"] == "Democracy")
-
-    kmf_democracy.fit(T[dem], event_observed=E[dem], label = "Democratic Regime")
-
-    med_dem = kmf_democracy.median_survival_time_
-    med_dem_conf = median_survival_times(kmf_democracy.confidence_interval_)
-
-    kmf_ndemocracy.fit(T[~dem], event_observed=E[~dem], label = "Non Democratic Regime")
-
-    med_ndem = kmf_ndemocracy.median_survival_time_
-    med_ndem_conf = median_survival_times(kmf_ndemocracy.confidence_interval_)
-
-    results = logrank_test(T[dem], T[~dem], E[dem], E[~dem], alpha=.99)
-
-    return kmf_democracy, kmf_ndemocracy, dem, T, E, med_dem, med_dem_conf, med_ndem, med_ndem_conf, results
 
 def KM_lung():
 
-    data_lung = load_lung()
+    data_lung = get_lung_dataframe()
     df_lung = pd.DataFrame(data_lung)
     #print(df_lung.columns)
     #print(df_lung.head())
