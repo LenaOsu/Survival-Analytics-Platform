@@ -5,10 +5,10 @@ from lifelines.statistics import logrank_test
 from matplotlib import pyplot as plt
 import pandas as pd
 from lifelines import *
-from app.models.KaplanMeier import (democracy_KM, KM_lung)
-from app.models.Weibull import (democracy_Wb, Wb_lung)
+from app.models.KaplanMeier import KM_lung
+from app.models.Weibull import Wb_lung
 from app.src.features import (error_model, horizon_probability, death_risk, summary)
-from app.src.visualization import (plot_MK_Wb_democracy, plot_men_women_survival_prob, hazard_plots)
+from app.src.visualization import (plot_men_women_survival_prob, hazard_plots)
 
 from fastapi import FastAPI
 from app.api.routes import router
@@ -17,10 +17,6 @@ from app.core.model_loader import load_models
 
 def main():
 
-    #apetizer !
-    kmf_democracy, kmf_ndemocracy, dem, T, E, med_dem, med_dem_conf, med_ndem, med_ndem_conf, results = democracy_KM()
-    wbf_democracy, wbf_ndemocracy, df, _, T, E, med_dem_w, med_dem_conf_w, med_ndem_w, med_ndem_conf_w, results_w = democracy_Wb()
-    plot_MK_Wb_democracy(kmf_democracy, kmf_ndemocracy, wbf_democracy, wbf_ndemocracy, dem, T, E)
 
     #practical case :)
     kmf_lung_m, kmf_lung_w, df_lung, T, E, sexe, med_men, med_men_conf, med_women, med_women_conf, results_lung = KM_lung()

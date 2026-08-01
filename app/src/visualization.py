@@ -8,26 +8,6 @@ import pandas as pd
 from lifelines import *
 
 
-def plot_MK_Wb_democracy(kmf, nkmf, wbf, nwbf, dem, T, E):
-
-    ax = plt.subplot(1,1,1)
-
-    kmf.fit(T[dem], event_observed=E[dem], label = "Kaplan Meier Democratic regime")
-    kmf.plot_survival_function(ax=ax, color = "green")
-
-    nkmf.fit(T[~dem], event_observed=E[~dem], label = "Kaplan Meier Non democratic regime")
-    nkmf.plot_survival_function(ax=ax, color = "red")
-
-    wbf.fit(T[dem], E[dem], label = "Weibull Democratic regime")
-    wbf.plot_survival_function(ax=ax, color = "blue")
-
-    nwbf.fit(T[~dem], E[~dem], label = "Weibull Non democratic regime")
-    nwbf.plot_survival_function(ax=ax, color = "orange")
-
-    plt.title("Democracy vs Non-democracy regime (KM vs Wb)")
-    plt.legend()
-
-    plt.show()
 
 def plot_men_women_survival_prob(kmf, nkmf, wbf, nwbf, sexe, T, E):
 

@@ -6,6 +6,7 @@
 *.json
 *.csv
 *.root
+*.png
 
 
 # =========================
@@ -61,3 +62,5 @@ env/
 # =========================
 .vscode/
 .idea/
+
+app/database/survival.db
