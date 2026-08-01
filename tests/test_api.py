@@ -1,4 +1,7 @@
 
+import matplotlib
+matplotlib.use("Agg")  # backend non-interactif, ne tente jamais d'ouvrir de fenetre
+
 from fastapi.testclient import TestClient
 from app.main import app
 from app.api import routes

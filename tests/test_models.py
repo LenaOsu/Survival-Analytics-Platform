@@ -1,3 +1,7 @@
+
+import matplotlib
+matplotlib.use("Agg")  # backend non-interactif, ne tente jamais d'ouvrir de fenetre
+
 from fastapi.testclient import TestClient
 from app.main import app
 from app.api import routes
@@ -28,8 +32,10 @@ def test_survival_at_time_zero():#proba should always be ~1 at t=0
     prob = compute_survival_KM(model = model, sex = "female", time = 0)
     assert prob > 0.95
 
+def test_sex_invalid_value_rejected():
+    response = client.post("/survival_KM", json={"sex": "dog", "time": 300})
+    assert response.status_code == 422  # valeur invalide correctement rejetee par Pydantic
+
 def test_sex_female_or_male_ok():
-
-    response = client.post("/survival_KM", json={"sex" : "dog", "time": 300})
-
-    assert response.status_code == 200
+    response = client.post("/survival_KM", json={"sex": "female", "time": 300})
+    assert response.status_code == 200  # valeur valide, doit reussir
