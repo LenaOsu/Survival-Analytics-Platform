@@ -27,6 +27,7 @@ def plot_men_women_survival_prob(kmf, nkmf, wbf, nwbf, sexe, T, E):
 
     plt.title("Men vs Women status (KM vs Wb)")
     plt.legend()
+    plt.savefig("outputs/plots/km_vs_wb.png", dpi=130)
     plt.show()
 
 def hazard_plots(wbf_lung_w, wbf_lung_m):
@@ -40,5 +41,7 @@ def hazard_plots(wbf_lung_w, wbf_lung_m):
     plt.plot(t, hazard_m, label="Men hazard", color = "red")
     plt.title("Weibull hazard function")
     plt.legend()
+
+    plt.savefig("outputs/plots/hazard.png", dpi=130)
 
     plt.show()

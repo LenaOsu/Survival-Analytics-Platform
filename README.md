@@ -70,6 +70,12 @@ The Kaplan-Meier estimator is a non-parametric method that provides a robust bas
 **Why Weibull Model**
 The Weibull model introduces a parametric approach capable of capturing varying hazard rates over time, making it suitable for modeling more structured time-to-event behaviors.
 
+**Notable technique points**
+
+- Under/overfitting diagnostics via train/test C-index
+- SQL queries using CTEs and window functions (see app/database/queries/)
+- Interactive Power BI dashboard with cross-filtering and conditional formatting
+
 **Why a separation between services / models / API layers**
 The architecture follows a modular design to improve maintainability, scalability, and testability:
 - `models/` handles statistical and ML logic

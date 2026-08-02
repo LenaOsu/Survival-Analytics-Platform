@@ -7,6 +7,7 @@ import pandas as pd
 from lifelines import *
 from app.models.KaplanMeier import KM_lung
 from app.models.Weibull import Wb_lung
+from app.models.Cox import Cox_lung
 from app.src.features import (error_model, horizon_probability, death_risk, summary)
 from app.src.visualization import (plot_men_women_survival_prob, hazard_plots)
 
@@ -21,6 +22,7 @@ def main():
     #practical case :)
     kmf_lung_m, kmf_lung_w, df_lung, T, E, sexe, med_men, med_men_conf, med_women, med_women_conf, results_lung = KM_lung()
     wbf_lung_m, wbf_lung_w, df_lung, T, E, sexe, med_men_wb, med_men_conf_wb, med_women_wb, med_women_conf_wb, results_lung_wb = Wb_lung()
+    Cox_lung()
     plot_men_women_survival_prob(kmf_lung_m, kmf_lung_w, wbf_lung_m, wbf_lung_w, sexe, T, E)
 
     print("QUESTION : What is the probability that a women or a male patient survive at time=300 days ?")
