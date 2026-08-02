@@ -75,6 +75,16 @@ The Weibull model introduces a parametric approach capable of capturing varying 
 
 ![Weibull Hazard Women/Men comparison plot](./outputs/plots/hazard.png)
 
+Weibull Women Results involve that shape parameter (p = 1.57) are significantly different from 1 (p-value <0.005 for rho/lambda for women and z = 3.34). 
+
+This indicates that the hazard function is NOT constant over time. The positive deviation from 1 suggests an increasing failure rate." 
+This is coherent with a deterioration process. 
+
+Meanwhile, Weibull men results involve that lambda is statistically significant, indicating a well-defined survival time scale.
+Whereas, the shape parameter rho is not significantly different from the reference value, suggesting insufficient proof for an increasing deterioration (p < 0.1).
+This could means that the mortality risk for men is approximately constant over time, or that the dataset lacks power to detect time variation.
+
+
 **Notable technique points**
 
 - Under/overfitting diagnostics via train/test C-index
