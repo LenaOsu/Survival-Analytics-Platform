@@ -4,9 +4,6 @@ credentials.json
 
 .gitignore
 
-__pycache__/
-*.pyc
-
 .venv/
 env/
 
@@ -14,3 +11,12 @@ env/
 
 .vscode/
 .idea/
+
+.pytest_cache/
+__pycache__/
+*.pyc
+.venv/
+.git/
+app/database/outputs/
+docs/
+powerbi/

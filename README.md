@@ -95,6 +95,18 @@ The architecture follows a modular design to improve maintainability, scalabilit
 This separation ensures clear responsibilities and simplifies future extensions or model replacement.
 
 ---
+
+#Go in your path
+pip install -r requirements.txt
+python -m app.database.seed
+
+---
+python -m app.main
+---
+API launch:
+
+uvicorn app.main:app --reload
+---
 Running tests:
 
 pytest -v
@@ -106,6 +118,14 @@ python -m app.database.run_query
 
 CSV files are written to app/database/outputs/, ready to import into Power BI.
 
+---
+Open Docker Desktop first,
+
+Then, Docker build (image) and run (container):
+
+docker build -t survival-analytics-platform -f docker/Dockerfile .
+(docker build --no-cache -t survival-analytics-platform -f docker/Dockerfile . #if you need to reinstall over depedencies !)
+docker run -p 8000:8000 survival-analytics-platform
 ---
 
 ## Example Request
