@@ -70,11 +70,20 @@ The Kaplan-Meier estimator is a non-parametric method that provides a robust bas
 **Why Weibull Model**
 The Weibull model introduces a parametric approach capable of capturing varying hazard rates over time, making it suitable for modeling more structured time-to-event behaviors.
 
+![Kaplan-Meier vs Weibull Women/Men comparison](./outputs/plots/km_vs_wb.png)
+
+![Weibull Hazard Women/Men comparison plot](./outputs/plots/hazard.png)
+
 **Notable technique points**
 
 - Under/overfitting diagnostics via train/test C-index
 - SQL queries using CASE WHEN, aggregate functions, HAVING, and window functions (RANK() OVER (PARTITION BY ...), NTILE()) for cohort segmentation and risk ranking (see app/database/queries/)
 - Interactive Power BI dashboard with cross-filtering and conditional formatting
+- Model comparison: Kaplan-Meier (non-parametric baseline) vs Weibull (parametric) vs Cox PH (covariate-based), with visual validation of each model's fit against empirical survival curves on both train and test splits
+
+![Cox vs Kaplan-Meier models](./outputs/plots/cox_vs_km.png)
+
+![Cox vs Weibull models](./outputs/plots/cox_vs_wb.png)
 
 **Why a separation between services / models / API layers**
 The architecture follows a modular design to improve maintainability, scalability, and testability:
@@ -83,6 +92,18 @@ The architecture follows a modular design to improve maintainability, scalabilit
 - `api/` exposes clean REST endpoints via FastAPI
 
 This separation ensures clear responsibilities and simplifies future extensions or model replacement.
+
+---
+Running tests:
+
+pytest -v
+
+---
+Exporting SQL queries for Power BI:
+
+python -m app.database.run_query
+
+CSV files are written to app/database/outputs/, ready to import into Power BI.
 
 ---
 
@@ -103,9 +124,13 @@ response = requests.post(url, json=payload)
 
 print(response.json())
 
+***Data source***
+
+lifelines.datasets.load_lung — a public, anonymized lung cancer clinical dataset (North Central Cancer Treatment Group), distributed with the lifelines Python package.
+
 ## Author:
 
 Léna Osu
-Physics PhD | Machine Learning & Statistical Modeling
+Physics PhD → Statistical Modeling & Inference | Data Science | Self-Taught ML Engineer
 GitHub: https://github.com/lenaosu
 LinkedIn: https://linkedin.com/in/lena-osu-b532073a0
