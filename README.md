@@ -73,7 +73,7 @@ The Weibull model introduces a parametric approach capable of capturing varying 
 **Notable technique points**
 
 - Under/overfitting diagnostics via train/test C-index
-- SQL queries using CTEs and window functions (see app/database/queries/)
+- SQL queries using CASE WHEN, aggregate functions, HAVING, and window functions (RANK() OVER (PARTITION BY ...), NTILE()) for cohort segmentation and risk ranking (see app/database/queries/)
 - Interactive Power BI dashboard with cross-filtering and conditional formatting
 
 **Why a separation between services / models / API layers**
