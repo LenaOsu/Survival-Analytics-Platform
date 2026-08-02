@@ -111,6 +111,7 @@ CSV files are written to app/database/outputs/, ready to import into Power BI.
 ## Example Request
 
 ### Python 
+
 ```python id="r2"
 import requests
 
@@ -124,6 +125,7 @@ payload = {
 response = requests.post(url, json=payload)
 
 print(response.json())
+```
 
 ***Data source***
 
