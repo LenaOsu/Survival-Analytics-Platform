@@ -59,13 +59,16 @@ It combines statistical modeling, backend engineering, and cloud deployment.
 
 ## Design Decisions
 
-**Why FastAPI**
+**Why FastAPI ?**
+
 FastAPI was chosen for its high performance, native support for asynchronous operations, and automatic generation of OpenAPI/Swagger documentation, which simplifies API testing and integration.
 
-**Why Kaplan-Meier**
+**Why Kaplan-Meier ?**
+
 The Kaplan-Meier estimator is a non-parametric method that provides a robust baseline for survival probability estimation without assuming any specific distribution.
 
-**Why Weibull Model**
+**Why Weibull Model ?**
+
 The Weibull model introduces a parametric approach capable of capturing varying hazard rates over time, making it suitable for modeling more structured time-to-event behaviors.
 
 ![Kaplan-Meier vs Weibull Women/Men comparison](./outputs/plots/km_vs_wb.png)
