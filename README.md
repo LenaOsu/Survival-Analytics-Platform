@@ -78,7 +78,7 @@ The Weibull model introduces a parametric approach capable of capturing varying 
 
 - Under/overfitting diagnostics via train/test C-index
 - SQL queries using CASE WHEN, aggregate functions, HAVING, and window functions (RANK() OVER (PARTITION BY ...), NTILE()) for cohort segmentation and risk ranking (see app/database/queries/)
-- Interactive Power BI dashboard with cross-filtering and conditional formatting
+- Interactive Power BI dashboard with cross-filtering and conditional formatting (see ./Power Bi Board/PowerBi_survival_analysis.gif)
 - Model comparison: Kaplan-Meier (non-parametric baseline) vs Weibull (parametric) vs Cox PH (covariate-based), with visual validation of each model's fit against empirical survival curves on both train and test splits
 
 ![Cox vs Kaplan-Meier models](./outputs/plots/cox_vs_km.png)
