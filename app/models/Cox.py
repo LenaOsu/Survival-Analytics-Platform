@@ -34,6 +34,9 @@ def Cox_lung():
     cph.fit(df_train, duration_col="time", event_col="event")
     cph.print_summary()
 
+    cph.check_assumptions(df_train, p_value_threshold=0.05)
+    print("check assumptions done")
+
     risk_train = cph.predict_partial_hazard(df_train)
     risk_test = cph.predict_partial_hazard(df_test)
 

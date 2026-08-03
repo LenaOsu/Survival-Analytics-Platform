@@ -96,6 +96,19 @@ This could means that the mortality risk for men is approximately constant over 
 
 ![Cox vs Weibull models](./outputs/plots/cox_vs_wb.png)
 
+The Cox proportional hazards model was fitted on 170 patients, including 122 observed events and 48 censored observations.
+
+**Sex** was the strongest prognostic factor (HR = 0.53, p < 0.001). According to the dataset coding (1 = male, 2 = female), women exhibited approximately 47% lower instantaneous mortality risk than men.
+**ECOG** performance status significantly increased mortality (HR = 1.57, p < 0.001), meaning that each additional ECOG point increased the hazard by approximately 57%.
+**Age** had a smaller but significant effect (HR = 1.03, p = 0.02), corresponding to an increase of roughly 3% in mortality risk per additional year.
+**Weight** loss was not statistically significant (p = 0.20) after adjustment for the other variables.
+
+These findings are consistent with the previous Kaplan–Meier and Weibull analyses. Women showed a substantially longer median survival (426 vs 270 days) and higher survival probability at 300 days (67.4% vs 44.1%), supporting the Cox model estimates.
+
+The decrease from 0.659 (train) to 0.553 (test) suggests moderate overfitting, although the cross-validation score indicates acceptable stability across folds.
+
+Finally, the proportional hazards assumption was assessed using Schoenfeld residuals. Only the variable sex showed a significant deviation (p = 0.028), suggesting that its effect may vary over time. Therefore, the estimated hazard ratio for sex should be interpreted as an average effect over the follow-up period. The proportional hazards assumption was satisfied for the remaining covariates.
+
 **Why a separation between services / models / API layers**
 The architecture follows a modular design to improve maintainability, scalability, and testability:
 - `models/` handles statistical and ML logic
