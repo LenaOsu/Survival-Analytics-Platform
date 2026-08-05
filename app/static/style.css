@@ -134,6 +134,46 @@ font-size:1.1em;
 
 }
 
+.metrics{
+
+display:flex;
+
+gap:20px;
+
+justify-content:center;
+
+flex-wrap:wrap;
+
+margin-top:25px;
+
+}
+
+.metric{
+
+background:white;
+
+padding:25px;
+
+border-radius:12px;
+
+min-width:180px;
+
+box-shadow:0 5px 15px rgba(0,0,0,.08);
+
+text-align:center;
+
+}
+
+.metric h3{
+
+margin:0;
+
+font-size:2em;
+
+color:#1f4e79;
+
+}
+
 footer{
 
 text-align:center;
