@@ -175,6 +175,11 @@ response = requests.post(url, json=payload)
 
 print(response.json())
 ```
+## Power BI Dashboard
+
+A preview of the interactive Power BI dashboard built on top of the SQL database used by the API.
+
+./Power Bi Board/PowerBi_survival_analysis.gif
 
 ***Data source***
 

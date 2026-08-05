@@ -15,6 +15,12 @@ from fastapi import FastAPI
 from app.api.routes import router
 from app.core.model_loader import load_models
 
+from fastapi import Request
+from fastapi.responses import HTMLResponse
+from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
+
+templates = Jinja2Templates(directory="app/templates")
 
 def main():
 
@@ -96,13 +102,19 @@ app = FastAPI(
 
 
 app.include_router(router)
+app.mount("/static", StaticFiles(directory="app/static"), name="static")
+
 
 #kmf_lung_m, kmf_lung_w, df_lung, T, E, sexe, med_men, med_men_conf, med_women, med_women_conf, results_lung = KM_lung()
 #wbf_lung_m, wbf_lung_w, df_lung, T, E, sexe, med_men_wb, med_men_conf_wb, med_women_wb, med_women_conf_wb, results_lung_wb = Wb_lung()
 
-@app.get("/")
-def root():
-    return {"message": "Survival Analytics API is running"}
+#building a good html page to visualize the results of the survival analysis and the API endpoints
+@app.get("/", response_class=HTMLResponse)
+async def home(request: Request):
+    return templates.TemplateResponse(
+        "index.html",
+        {"request": request},
+    )
 
 if __name__ == "__main__":
     main()
