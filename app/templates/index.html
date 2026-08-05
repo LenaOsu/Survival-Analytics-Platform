@@ -152,9 +152,9 @@ Render
 
 <li>Median survival prediction</li>
 
-<li>Kaplan-Meier curves</li>
+<li>Kaplan-Meier - Non-parametric estimation of survival curves</li>
 
-<li>Weibull modeling</li>
+<li>Weibull parametric modeling of survival distributions and hazard evolution</li>
 
 <li>Cox proportional hazards</li>
 
@@ -193,6 +193,64 @@ Render
 </div>
 
 </div>
+
+</section>
+
+<section class="container">
+
+<h2>Example Prediction</h2>
+
+<div class="example">
+
+<div>
+
+<h3>Input</h3>
+
+<pre>{
+  "sex":"female",
+  "time":100
+}</pre>
+
+</div>
+
+<div>
+
+<h3>Output</h3>
+
+<pre>{
+ "Kaplan-Meier":0.674,
+ "Weibull":0.657
+}</pre>
+
+</div>
+
+</div>
+
+</section>
+
+<section class="container">
+
+<h2>Power BI Dashboard</h2>
+
+<p>
+Interactive dashboard connected to the same SQL database powering the API.
+</p>
+
+<img class="dashboard"
+src="/static/PowerBI_survival_analysis.gif">
+
+</section>
+
+<section class="container">
+
+<h2>Project</h2>
+
+<a class="button"
+href="https://github.com/LenaOsu/Survival-Analytics-Platform">
+
+GitHub Repository
+
+</a>
 
 </section>
 
