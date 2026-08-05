@@ -63,3 +63,4 @@ env/
 .idea/
 
 app/database/survival.db
+runtime.txt
