@@ -6,17 +6,6 @@ The system is deployed in production and exposes a fully documented REST API.
 
 ---
 
-## Live System
-
-The API is deployed and fully accessible in production.
-
-- API: https://survival-analytics-platform.onrender.com  
-- Interactive Swagger Documentation: https://survival-analytics-platform.onrender.com/docs  
-
-The `/docs` endpoint provides full interactive testing of all available routes. 
-
----
-
 ## Overview
 
 This project implements a full machine learning pipeline for survival analysis and exposes it as a production-ready REST API.
@@ -108,6 +97,8 @@ These findings are consistent with the previous Kaplan–Meier and Weibull analy
 The decrease from 0.659 (train) to 0.553 (test) suggests moderate overfitting, although the cross-validation score indicates acceptable stability across folds.
 
 Finally, the proportional hazards assumption was assessed using Schoenfeld residuals. Only the variable sex showed a significant deviation (p = 0.028), suggesting that its effect may vary over time. Therefore, the estimated hazard ratio for sex should be interpreted as an average effect over the follow-up period. The proportional hazards assumption was satisfied for the remaining covariates.
+
+
 
 **Why a separation between services / models / API layers**
 The architecture follows a modular design to improve maintainability, scalability, and testability:
