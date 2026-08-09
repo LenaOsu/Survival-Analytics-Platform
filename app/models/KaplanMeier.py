@@ -14,7 +14,6 @@ def KM_lung():
     #print(df_lung.columns)
     #print(df_lung.head())
 
-    #status = 0 or 1; sex = 1 or 2- cannot know for sure who is who
     #have a look on df_lung.groupby("status")["time"].mean() and df.groupby("status")["time"]
     #ALWAYS check the documentation to be sure of the object
 
