@@ -1,3 +1,4 @@
+from app.core.config import APP_ENV, MODEL_VERSION
 from app.database.repository import get_lung_dataframe
 from lifelines import KaplanMeierFitter, WeibullFitter
 from lifelines.utils import median_survival_times
@@ -97,7 +98,7 @@ def main():
 
 app = FastAPI(
     title="Survival Analytics API",
-    docs_url="/docs",   # désactiver en prod plus tard
+    docs_url="/docs" if APP_ENV != "prod" else None,   # désactiver en prod plus tard
 )
 
 

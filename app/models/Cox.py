@@ -1,22 +1,16 @@
-from os import name
-
-from app.database.repository import get_lung_dataframe
+from app.src.data_loader import load_survival_data
 from lifelines import KaplanMeierFitter, WeibullFitter
-from lifelines.utils import k_fold_cross_validation, median_survival_times
-from lifelines.statistics import logrank_test
+from lifelines.utils import k_fold_cross_validation, concordance_index
 import pandas as pd                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
 from lifelines import *
 from lifelines import CoxPHFitter
-from sklearn.metrics import mean_squared_error, r2_score
 from sklearn.model_selection import train_test_split
-from lifelines.utils import concordance_index
 from matplotlib import pyplot as plt
 
 
 def Cox_lung():
 
-    data_lung = get_lung_dataframe()
-    df_lung = pd.DataFrame(data_lung)
+    df_lung, T, E, sexe = load_survival_data()
 
     print(df_lung["status"].value_counts())
     print(df_lung["sex"].value_counts())
