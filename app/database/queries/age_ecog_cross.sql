@@ -19,9 +19,8 @@ END AS ph_ecog_group,
 COUNT(*) AS n_patients,
 ROUND(AVG(f.time_days), 1) AS mean_followup_days,
 SUM(f.status) AS n_deaths,
-CONCAT(ROUND(100.0*SUM(f.status)/COUNT(*), 1), '%') AS pct_deaths
+ROUND(100.0*SUM(f.status)/COUNT(*), 1) || '%' AS pct_deaths 
 FROM patients p
 JOIN follow_up f ON p.patient_id = f.patient_id
 GROUP BY sex, age_group, ph_ecog_group
-HAVING pct_deaths IS NOT NULL
 ORDER BY age_group, ph_ecog_group;
