@@ -2,7 +2,7 @@ SELECT
 CASE p.sex WHEN 1 THEN 'Men' WHEN 2 THEN 'Women' END AS sexe,
 COUNT(*) AS n_patients,
 SUM(f.status) AS n_deaths,
-CONCAT(ROUND(100.0*SUM(f.status)/COUNT(*), 1), '%') AS pct_deaths,
+ROUND(100.0*SUM(f.status)/COUNT(*), 1) || '%' AS pct_deaths,
 ROUND(AVG(f.time_days), 1) AS mean_followup_days,
 ROUND(AVG(p.age), 1) AS mean_age
 FROM patients p
