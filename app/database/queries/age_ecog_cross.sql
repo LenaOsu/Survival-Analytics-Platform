@@ -23,4 +23,6 @@ ROUND(100.0*SUM(f.status)/COUNT(*), 1) || '%' AS pct_deaths
 FROM patients p
 JOIN follow_up f ON p.patient_id = f.patient_id
 GROUP BY sex, age_group, ph_ecog_group
-ORDER BY age_group, ph_ecog_group;
+ORDER BY age_group, ph_ecog_group
+
+#pour les deux sexes homme/femme, on groupe par age et score ecog, afin d'obtenir le nombre de patients, le nombre de décès, le pourcentage de décès et la durée moyenne de suivi pour chaque combinaison d'âge et de score ecog.

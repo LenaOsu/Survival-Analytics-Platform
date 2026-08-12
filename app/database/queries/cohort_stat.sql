@@ -9,3 +9,4 @@ FROM patients p
 JOIN follow_up f ON p.patient_id = f.patient_id
 GROUP BY sexe
 
+#pour les deux sexes homme/femme, on compte le nombre de patients, le nombre de décès, le pourcentage de décès, la durée moyenne de suivi et l'âge moyen.
