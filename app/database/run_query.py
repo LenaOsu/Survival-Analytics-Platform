@@ -29,6 +29,7 @@ if __name__ == "__main__":
         "cohort_stat.sql",
         "age_ecog_cross.sql",
         "risk_ranking_overview.sql",
+        "death_ecog_status.sql",
     ]
 
     for filename in query_files:
