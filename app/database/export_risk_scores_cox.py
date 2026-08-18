@@ -14,6 +14,13 @@ def export_risk_scores_cox():
     cph = CoxPHFitter()
     cph.fit(fit_df, duration_col="time", event_col="event")
 
-    # Predict risk scores for all patients
+    # Predict partial hazards for all patients
     df_cox["partial_hazard"] = cph.predict_partial_hazard(fit_df)
-    
+    df_cox[["patient_id", "partial_hazard"]].to_sql("risk_scores_cox", conn, if_exists="replace", index=False)
+
+    conn.close()
+    print("Risk scores exported to the database successfully.")
+
+if __name__ == "__main__":
+    export_risk_scores_cox()
+
